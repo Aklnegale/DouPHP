@@ -19,7 +19,7 @@ if (!defined('IN_DOUCO')) {
 error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 
 // 关闭 set_magic_quotes_runtime
-@ set_magic_quotes_runtime(0);  //这个magic_quotes_runtime 是干什么用的
+@ set_magic_quotes_runtime(0);  //这个magic_quotes_runtime 是干什么用的 ：给溢出字符添加反斜线
 
 // 调整时区
 if (PHP_VERSION >= '5.1') {           //自版本 5.1起 此函数被重写
