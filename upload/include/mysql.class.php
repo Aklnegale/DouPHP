@@ -124,7 +124,7 @@ class DbMysql {
     
     // 从结果集取得的行生成的数组
     function fetch_array($query) {
-        return mysql_fetch_array($query);
+        return mysql_fetch_array($query);   //从结果集中取得一行作为关联数组，或数字数组，或二者皆有
     }
     
     // 返回 MySQL 服务器的信息
@@ -150,21 +150,23 @@ class DbMysql {
         return $this->query("SELECT * FROM " . $table);
     }
     
-    // 判断表是否存在
-    function table_exist($table) {
+    // 判断表是否存在            
+    function table_exist($table) { //trim()去除字符    
         if($this->num_rows($this->query("SHOW TABLES LIKE '" . trim($this->table($table), '`') . "'")) == 1)
             return true;
     }
     
     // 判断字段是否存在
+    //mysql_fetch_array(resource $resource,int $result_type) 从结果集中取得行生成的数组，第二个参数 result_type是一个常量，可以接受以下值：MYSQL_ASSOC,MYSQL_NUM,MYSQL_BOTH 默认参数是MYSQL_BOTH  MYSQL_BOTH将得到一个同时包含关联和数字索引的数组 MYSQL_ASSOC只得到关联索引 MYSQL_ASSOC只得到数字索引
+
     function field_exist($table, $field) {
         $sql = "SHOW COLUMNS FROM " . $this->table($table);
         $query = $this->query($sql);
-        while($row = mysql_fetch_array($query, MYSQL_ASSOC))   {
-            $array[] = $row['Field'];
+        while($row = mysql_fetch_array($query, MYSQL_ASSOC))   {  //取得行数组，然后寻找包含Field的行
+            $array[] = $row['Field'];                           
         }
         
-        if (in_array($field, $array))
+        if (in_array($field, $array))  //in_array()检查数组中是否包含某个值
             return true;
     }
     
